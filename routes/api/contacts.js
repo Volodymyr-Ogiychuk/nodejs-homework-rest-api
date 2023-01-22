@@ -6,7 +6,8 @@ const {
   createContact,
   deleteContactById,
   setFavorite,
-} = require('../../controllers/contacts-controller');
+} = require('../../controllers/contactsController');
+const { authMiddleware } = require("../../middlwares/authorizationMiddlware");
 
 const Joi = require("joi")
 
@@ -43,13 +44,13 @@ const validator = (schema) => (req, res, next) => {
 
 const router = express.Router()
 
-router.get('/', getContacts);
+router.get('/', authMiddleware, getContacts);
 router.get('/:contactId', getById);
-router.post('/', validator(addContactSchema), createContact);
-router.delete('/:contactId', deleteContactById);
+router.post('/', validator(addContactSchema), authMiddleware, createContact);
+router.delete('/:contactId', authMiddleware, deleteContactById);
 router.put("/:contactId", validator(updateContactSchema), updateContactById);
 router.patch("/:contactId/favorite",
-  validator(updateFavoriteSchema),
+  validator(updateFavoriteSchema), authMiddleware, 
   setFavorite
 );
 
