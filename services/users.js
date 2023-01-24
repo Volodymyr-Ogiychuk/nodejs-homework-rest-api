@@ -34,8 +34,8 @@ const verifyUser = async (body) => {
   return updatedUser;
 };
 
-const changeSubStatus = async (userId, newSubStatus) => {
-  await User.findByIdAndUpdate(userId, { subscription: newSubStatus });
+const updateUserData = async (userId, updateData) => {
+  return await User.findByIdAndUpdate(userId, updateData, { new: true });
 };
 
-module.exports = { createUser, verifyUser, changeSubStatus };
+module.exports = { createUser, verifyUser, updateUserData };
